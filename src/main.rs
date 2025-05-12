@@ -1,5 +1,5 @@
 use actix_web::{web, App, HttpServer};
-use blog::{insert_publish, retrieve_publish};
+use blog::{delete_articles, insert_publish, retrieve_publish, update_publisher};
 use sqlx::{Pool, Postgres};
 
 struct Db {
@@ -30,7 +30,9 @@ async fn main() -> std::io::Result<()> {
             .service(
                 web::scope("/blog")
                     .service(insert_publish)
-                    .service(retrieve_publish),
+                    .service(retrieve_publish)
+                    .service(update_publisher)
+                    .service(delete_articles)
             )
     })
     .bind("0.0.0.0:8000")?
